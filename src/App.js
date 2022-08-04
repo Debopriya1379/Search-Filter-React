@@ -1,25 +1,37 @@
-import logo from './logo.svg';
 import './App.css';
+import SearchComponent from './components/SearchComponent';
+import styled from 'styled-components';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 function App() {
+
+  const [data,setData] = useState([]);
+
+  useEffect(()=>{
+    const getData = async()=>{
+      const response = await axios.get('https://dummyjson.com/products')
+      // console.log(response.data.products);
+      setData(response.data.products);
+    }
+    getData();
+  },[]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container className="App">
+      <SearchComponent data={data}/>
+    </Container>
   );
 }
 
 export default App;
+
+const Container = styled.div`
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(transparent,rgba(0,0,0,0.7));
+  background-color: #3284e8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
